@@ -1,0 +1,919 @@
+/* Global layout */
+:root {
+  --accent: #e67e22; /* Professional orange */
+  --muted: #666;
+  --primary: #2c3e50;
+  --secondary: #34495e;
+  --success: #27ae60;
+  --info: #3498db;
+  --warning: #f39c12;
+  --danger: #e74c3c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+html,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  -webkit-text-size-adjust: 100%; /* Prevent text scaling on orientation change */
+  -ms-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+.app-root {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  min-height: 100vh;
+}
+.panel {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.form-panel {
+  width: 380px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.preview-panel {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto; /* Allow horizontal scrolling on mobile if needed */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.form-panel h2 {
+  margin: 0 0 25px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-grid input {
+  margin-top: 8px;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: white;
+  min-height: 44px; /* Minimum touch target size for mobile */
+}
+
+.form-grid input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  .form-grid input {
+    font-size: 16px; /* Prevents zoom on iOS */
+    min-height: 48px; /* Better touch targets */
+  }
+  
+  .download-btn {
+    min-height: 48px;
+    padding: 15px 30px;
+  }
+  
+  .form-grid input:focus {
+    transform: none; /* Remove transform on touch devices */
+  }
+  
+  .download-btn:hover {
+    transform: none; /* Remove hover effects on touch devices */
+  }
+}
+
+.form-grid input[list] {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.actions {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.download-btn {
+  background: linear-gradient(135deg, var(--accent) 0%, #d35400 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(230, 126, 34, 0.3);
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.download-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(230, 126, 34, 0.4);
+}
+
+.download-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.validation-info {
+  margin-top: 10px;
+}
+
+.validation-info small {
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Cover page styles - matching the exact image design */
+.cover-page {
+  position: relative;
+  width: 794px !important; /* A4 width in pixels at 96dpi - force exact size */
+  height: 1123px !important; /* A4 height in pixels at 96dpi - force exact size */
+  max-width: 794px !important;
+  max-height: 1123px !important;
+  min-width: 794px !important;
+  min-height: 1123px !important;
+  background: #ffffff;
+  padding: 75px; /* 20mm converted to pixels */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Prevent content from extending beyond bounds */
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid #e9ecef;
+  margin: 0 auto;
+  transform-origin: top left; /* Changed to top left for better PDF capture */
+  page-break-inside: avoid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box; /* Include border and padding in size calculations */
+}
+
+/* Corner decorative lines - matching the image exactly */
+.corner-lines {
+  position: absolute;
+  top: 75px; /* Account for padding */
+  left: 75px; /* Account for padding */
+  width: 0;
+  height: 0;
+}
+
+.corner-line {
+  position: absolute;
+  background-color: #ff6b35;
+  border-radius: 2px;
+}
+
+.corner-line.top-left-vertical {
+  width: 4px;
+  height: 120px;
+  top: 0;
+  left: -75px; /* Align with left edge */
+}
+
+.corner-line.top-left-horizontal1 {
+  width: 180px;
+  height: 4px;
+  top: -75px; /* Align with top edge */
+  left: -60px;
+}
+
+.corner-line.top-left-horizontal2 {
+  width: 140px;
+  height: 4px;
+  top: -50px;
+  left: -60px;
+}
+
+.corner-line.top-left-horizontal3 {
+  width: 100px;
+  height: 4px;
+  top: -25px;
+  left: -60px;
+}
+
+/* Logo section - matching the image */
+.logo-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0 20px 0;
+  text-align: center;
+  z-index: 3;
+}
+
+.uiu-logo {
+  width: 200px;
+  height: auto;
+  max-height: 180px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* University title - matching the image */
+.university-title {
+  text-align: center;
+  color: #fc6731;
+  font-size: 36px;
+  font-weight: 400;
+  /* Reduced bottom margin to decrease space */
+  letter-spacing: 1px;
+}
+
+/* Watermark - large UIU logo */
+.watermark-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.watermark-uiu-logo {
+  width: 400px;
+  height: 400px;
+  opacity: 0.08;
+  filter: grayscale(20%) brightness(120%);
+}
+
+/* Information section - matching the exact layout from image */
+.info-section {
+  position: relative;
+  z-index: 2;
+  margin-top: 35px; /* Reduced margin to decrease space from university title */
+  max-width: 650px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.info-row {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  font-size: 18px;
+}
+
+/* Special styling for submission sections only */
+.info-row.submission-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.info-row.submission-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b35, #e67e22);
+}
+
+/* Special styling for centered date submission */
+.info-row.date-section {
+  flex-direction: column;
+
+  background: linear-gradient(135deg, #e2dbdb 0%, #d9e2ec 100%) !important;
+  color: rgb(7, 7, 7) !important;
+  border-radius: 15px;
+  padding: 10px 20px;
+  
+  box-shadow: 0 8px 25px rgba(44, 62, 80, 0.3);
+  min-width: 350px;
+  max-width: 450px;
+  z-index: 10;
+  position: relative;
+}
+
+.info-row.date-section .info-label {
+  color: rgba(12, 12, 12, 0.9) !important;
+  font-size: 16px !important;
+  margin-right: 0 !important;
+  margin-bottom: 8px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  min-width: auto !important;
+  display: block !important;
+  font-style: normal !important;
+}
+
+.info-row.date-section .info-value {
+  color: rgb(0, 0, 0) !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  display: block !important;
+}
+
+.info-label {
+  font-weight: bold;
+  font-style: italic;
+  color: #333;
+  min-width: 200px;
+  margin-right: 20px;
+}
+
+.info-value {
+  font-weight: bold;
+  color: #000;
+}
+
+.info-details {
+  flex: 1;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 5px 0;
+  transition: all 0.2s ease;
+}
+
+.submission-section .detail-item {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border-left: 3px solid #ff6b35;
+}
+
+.arrow {
+  color: #4169e1;
+  font-size: 16px;
+  margin-right: 12px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.submission-section .arrow {
+  color: #ff6b35;
+}
+
+.detail-value {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* Information Container */
+.info-container {
+  padding: 15mm;
+  position: relative;
+  z-index: 2;
+  min-height: 140mm;
+}
+
+/* Information Cards */
+.info-card {
+  background: white;
+  border-radius: 4mm;
+  padding: 8mm;
+  margin-bottom: 6mm;
+  box-shadow: 0 2mm 6mm rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+  position: relative;
+  overflow: hidden;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), #d63384);
+}
+
+.card-header {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f8f9fa;
+}
+
+.card-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.course-info .info-grid {
+  grid-template-columns: 1fr;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item .label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.info-item .value {
+  font-size: 4.5mm;
+  font-weight: 700;
+  color: #2c3e50;
+  padding: 3mm 4mm;
+  background: #f8f9fa;
+  border-radius: 2mm;
+  border-left: 1mm solid var(--accent);
+  min-height: 8mm;
+  display: flex;
+  align-items: center;
+  word-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.4;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.info-item .value:empty::after {
+  content: "Not specified";
+  color: #adb5bd;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Submission Information */
+.submission-info {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.submission-date {
+  display: inline-block;
+  padding: 20px 40px;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(44, 62, 80, 0.3);
+}
+
+.date-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+
+.date-value {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* Bottom decoration - matching the image */
+.bottom-decoration {
+  position: absolute;
+  bottom: 55px; /* Account for padding */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.decoration-line {
+  width: 400px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, #ff6b35 10%, #ff6b35 90%, transparent 100%);
+  position: relative;
+}
+
+.decoration-line::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 20px;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 20"><path d="M5,10 Q15,2 25,10 T45,10 Q50,8 55,10" stroke="%23ff6b35" stroke-width="2" fill="none"/></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+
+
+/* Print-friendly adjustments */
+@media print {
+  .app-root {
+    padding: 0;
+    background: white;
+  }
+  .form-panel {
+    display: none;
+  }
+  .panel {
+    justify-content: center;
+  }
+  .cover-page {
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 75px !important;
+    background: white !important;
+    width: 794px !important;
+    height: 1123px !important;
+    max-width: 794px !important;
+    max-height: 1123px !important;
+    min-width: 794px !important;
+    min-height: 1123px !important;
+    transform: none !important;
+    overflow: hidden !important;
+    border: none !important;
+  }
+  
+  .info-row.date-section {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+    color: white !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .info-row.date-section .info-label,
+  .info-row.date-section .info-value {
+    color: white !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+}
+
+/* PDF specific styles */
+.cover-page * {
+  box-sizing: border-box;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.cover-page img {
+  max-width: 100%;
+  height: auto;
+}
+
+.date-label {
+  display: block;
+  font-size: 3.5mm;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3mm;
+  margin-bottom: 2mm;
+  opacity: 0.8;
+}
+
+.date-value {
+  display: block;
+  font-size: 6mm;
+  font-weight: 800;
+  letter-spacing: 0.3mm;
+}
+
+/* Responsive design */
+
+/* Large tablets and small desktops */
+@media screen and (max-width: 1200px) {
+  .panel {
+    gap: 20px;
+    padding: 0 15px;
+  }
+  .form-panel {
+    width: 340px;
+    padding: 25px;
+  }
+  .cover-page {
+    width: 675px; /* 85% of 794px */
+    height: 955px; /* 85% of 1123px */
+    padding: 64px; /* 85% of 75px */
+    transform: scale(0.85);
+  }
+  .university-title {
+    font-size: 32px;
+  }
+  .info-row {
+    font-size: 16px;
+  }
+}
+
+/* Tablets */
+@media screen and (max-width: 1024px) {
+  .app-root {
+    padding: 15px;
+  }
+  .panel {
+    gap: 15px;
+    max-width: 100%;
+  }
+  .form-panel {
+    width: 300px;
+    padding: 20px;
+  }
+  .form-panel h2 {
+    font-size: 20px;
+  }
+  .form-grid input {
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+  .cover-page {
+    width: 635px; /* 80% of 794px */
+    height: 898px; /* 80% of 1123px */
+    padding: 60px; /* 80% of 75px */
+    transform: scale(0.8);
+  }
+  .university-title {
+    font-size: 28px;
+  }
+  .uiu-logo {
+    width: 160px;
+    max-height: 140px;
+  }
+}
+
+/* Small tablets and large phones */
+@media screen and (max-width: 900px) {
+  .panel {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .preview-panel {
+    order: 2;
+    width: 100%;
+  }
+  .form-panel {
+    order: 1;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .cover-page {
+    width: 556px; /* 70% of 794px */
+    height: 786px; /* 70% of 1123px */
+    padding: 53px; /* 70% of 75px */
+    transform: scale(0.7);
+    margin: 0 auto;
+  }
+  .university-title {
+    font-size: 25px;
+  }
+  .info-row {
+    font-size: 15px;
+  }
+  .info-label {
+    min-width: 160px;
+  }
+  .uiu-logo {
+    width: 140px;
+    max-height: 120px;
+  }
+  .watermark-uiu-logo {
+    width: 280px;
+    height: 280px;
+  }
+}
+
+/* Mobile phones */
+@media screen and (max-width: 700px) {
+  .app-root {
+    padding: 10px;
+  }
+  .form-panel {
+    padding: 15px;
+    border-radius: 15px;
+  }
+  .form-panel h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  .form-grid {
+    gap: 15px;
+  }
+  .form-grid input {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  .download-btn {
+    padding: 12px 25px;
+    font-size: 14px;
+  }
+  .cover-page {
+    width: 476px; /* 60% of 794px */
+    height: 674px; /* 60% of 1123px */
+    padding: 45px; /* 60% of 75px */
+    transform: scale(0.6);
+  }
+  .university-title {
+    font-size: 20px;
+    margin: 15px 0 20px 0;
+  }
+  .info-row {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  .info-label {
+    min-width: 140px;
+    font-size: 13px;
+  }
+  .info-value {
+    font-size: 13px;
+  }
+  .detail-value {
+    font-size: 13px;
+  }
+  .uiu-logo {
+    width: 120px;
+    max-height: 100px;
+  }
+  .watermark-uiu-logo {
+    width: 240px;
+    height: 240px;
+  }
+  .submission-section {
+    padding: 15px !important;
+  }
+  .date-section {
+    padding: 8px 15px !important;
+    min-width: 280px !important;
+  }
+  .date-section .info-label {
+    font-size: 14px !important;
+  }
+  .date-section .info-value {
+    font-size: 18px !important;
+  }
+  .corner-line.top-left-horizontal1 {
+    width: 120px;
+  }
+  .corner-line.top-left-horizontal2 {
+    width: 100px;
+  }
+  .corner-line.top-left-horizontal3 {
+    width: 80px;
+  }
+  .corner-line.top-left-vertical {
+    height: 80px;
+  }
+}
+
+/* Small mobile phones */
+@media screen and (max-width: 480px) {
+  .app-root {
+    padding: 5px;
+  }
+  .form-panel {
+    padding: 12px;
+    border-radius: 12px;
+  }
+  .cover-page {
+    width: 397px; /* 50% of 794px */
+    height: 562px; /* 50% of 1123px */
+    padding: 38px; /* 50% of 75px */
+    transform: scale(0.5);
+  }
+  .university-title {
+    font-size: 18px;
+  }
+  .info-row {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  .info-label {
+    min-width: 120px;
+    font-size: 12px;
+    margin-right: 15px;
+  }
+  .info-value {
+    font-size: 12px;
+  }
+  .detail-value {
+    font-size: 12px;
+  }
+  .uiu-logo {
+    width: 100px;
+    max-height: 80px;
+  }
+  .watermark-uiu-logo {
+    width: 200px;
+    height: 200px;
+  }
+  .submission-section {
+    padding: 12px !important;
+  }
+  .date-section {
+    padding: 6px 12px !important;
+    min-width: 240px !important;
+  }
+  .date-section .info-label {
+    font-size: 12px !important;
+  }
+  .date-section .info-value {
+    font-size: 16px !important;
+  }
+  .bottom-decoration {
+    bottom: 35px;
+  }
+  .decoration-line {
+    width: 250px;
+  }
+}
+
+/* Extra small devices */
+@media screen and (max-width: 360px) {
+  .cover-page {
+    width: 318px; /* 40% of 794px */
+    height: 449px; /* 40% of 1123px */
+    padding: 30px; /* 40% of 75px */
+    transform: scale(0.4);
+  }
+  .form-panel {
+    padding: 10px;
+  }
+  .form-grid input {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  .download-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+}
