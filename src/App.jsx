@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import toast, { Toaster } from 'react-hot-toast';
 import "./App.css";
 import uiuLogo from "./assets/United_International_University_Monogram.svg.png";
 
@@ -39,7 +40,19 @@ export default function App() {
 
     if (missingFields.length > 0) {
       const missingFieldNames = missingFields.map(field => requiredFields[field]);
-      alert(`Please fill in the following required fields:\n• ${missingFieldNames.join('\n• ')}`);
+      toast.error(`Please fill in the following required fields:\n• ${missingFieldNames.join('\n• ')}`, {
+        duration: 4000,
+        position: 'top-center',
+        style: {
+          background: '#fee2e2',
+          color: '#dc2626',
+          border: '1px solid #fecaca',
+          borderRadius: '8px',
+          fontSize: '14px',
+          maxWidth: '400px',
+          whiteSpace: 'pre-line'
+        },
+      });
       return false;
     }
     return true;
@@ -54,11 +67,20 @@ export default function App() {
     const element = coverRef.current;
     
     if (!element) {
-      alert("Cover page element not found!");
+      toast.error("Cover page element not found!", {
+        duration: 3000,
+        position: 'top-center',
+      });
       return;
     }
 
+    // Show loading toast
+    const loadingToastId = toast.loading('Generating PDF...', {
+      position: 'top-center',
+    });
+
     try {
+      
       // Show loading state
       const downloadBtn = document.querySelector('.download-btn');
       const originalText = downloadBtn.textContent;
@@ -185,12 +207,38 @@ export default function App() {
       downloadBtn.textContent = originalText;
       downloadBtn.disabled = false;
       
-      // Show success message
-      alert(`PDF generated successfully!\nFilename: ${filename}`);
+      // Dismiss loading toast and show success message
+      toast.dismiss(loadingToastId);
+      toast.success(`PDF generated successfully!\nFilename: ${filename}`, {
+        duration: 5000,
+        position: 'top-center',
+        style: {
+          background: '#dcfce7',
+          color: '#16a34a',
+          border: '1px solid #bbf7d0',
+          borderRadius: '8px',
+          fontSize: '14px',
+          maxWidth: '450px',
+          whiteSpace: 'pre-line'
+        },
+      });
       
     } catch (error) {
       console.error('Error generating PDF:', error);
-      alert('Error generating PDF. Please try again.');
+      
+      // Dismiss loading toast and show error message
+      toast.dismiss(loadingToastId);
+      toast.error('Error generating PDF. Please try again.', {
+        duration: 4000,
+        position: 'top-center',
+        style: {
+          background: '#fee2e2',
+          color: '#dc2626',
+          border: '1px solid #fecaca',
+          borderRadius: '8px',
+          fontSize: '14px'
+        },
+      });
       
       // Reset button state on error
       const downloadBtn = document.querySelector('.download-btn');
@@ -201,6 +249,7 @@ export default function App() {
 
   return (
     <div className="app-root">
+      <Toaster />
       <div className="panel">
         <div className="form-panel">
           <h2>Cover Page Inputs</h2>
